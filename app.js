@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const authRouter = require('./routes/auth')
+const jobRouter = require('./routes/jobs')
 const connectDB = require('./db/connect')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 const notFoundMiddleware = require('./middleware/not-found')
@@ -8,13 +10,13 @@ require('express-async-errors')
 
 app.use(express.json())
 
+// routes
+app.get('/api/v1/auth', authRouter)
+app.get('/api/v1/jobs', jobRouter)
+
 //middleware
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware)
-
-app.get('/', (req, res) => {
-    res.send('Home route.')
-})
 
 const port = process.env.PORT || 3000
 const start = async() => {
